@@ -67,6 +67,17 @@ module Refinery
           end
         end
 
+        it "doesn't allow updating if image has different file name" do
+          visit refinery.edit_admin_image_path(image)
+
+          attach_file "image_image", Refinery.roots(:'refinery/images').join("spec/fixtures/fathead.png")
+          click_button ::I18n.t('save', :scope => 'refinery.admin.form_actions')
+
+          page.should have_content(::I18n.t("different_file_name",
+                                            :scope => "activerecord.errors.models.refinery/image"))
+        end
+      end
+
         context "destroy" do
           it "removes image" do
             visit refinery.admin_images_path

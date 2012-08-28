@@ -230,6 +230,9 @@ a:hover {
   padding: 0px;
   a {
     border-bottom: 1px dotted #727272;
+    &.locale {
+      border-bottom: 0;
+    }
   }
   h1 {
     font-size: 18px;
@@ -1508,31 +1511,31 @@ a.information:hover {
   display: inline-block;
   width: auto;
 }
-/* cornering */
-.button, #editor_switch a, #editor_switch span {
-  @include rounded(6px);
-}
-#page_container, .wym_box {
-  @include bottom-rounded(5px);
-}
-.wym_iframe iframe {
-  @include bottom-rounded(2px);
-}
-.form-actions {
-  @include rounded(5px);
-}
-.form-actions.form-actions-dialog {
-  @include rounded(0px);
-}
-#menu > a {
-  @include top-rounded(5px);
-}
-.ui-tabs .ui-state-default a {
-  @include top-rounded(5px);
-}
-.tooltip, .tooltip span {
-  @include rounded(6px);
-}
+///* cornering */
+//.button, #editor_switch a, #editor_switch span {
+//  @include rounded(6px);
+//}
+//#page_container, .wym_box {
+//  @include bottom-rounded(5px);
+//}
+//.wym_iframe iframe {
+//  @include bottom-rounded(2px);
+//}
+//.form-actions {
+//  @include rounded(5px);
+//}
+//.form-actions.form-actions-dialog {
+//  @include rounded(0px);
+//}
+//#menu > a {
+//  @include top-rounded(5px);
+//}
+//.ui-tabs .ui-state-default a {
+//  @include top-rounded(5px);
+//}
+//.tooltip, .tooltip span {
+//  @include rounded(6px);
+//}
 .label {
   padding: 1px 3px 2px;
   font-size: 9.75px;

@@ -1,6 +1,5 @@
 # Encoding: UTF-8
-$:.push File.expand_path('../core/lib', __FILE__)
-require 'refinery/version'
+require File.expand_path('../core/lib/refinery/version', __FILE__)
 
 version = Refinery::Version.to_s
 
@@ -22,6 +21,7 @@ Gem::Specification.new do |s|
   s.files             = `git ls-files -- lib/* templates/*`.split("\n")
 
   s.add_dependency    'bundler',                    '~> 1.0'
+  s.add_dependency    'refinerycms-authentication', version
   s.add_dependency    'refinerycms-core',           version
   s.add_dependency    'refinerycms-dashboard',      version
   s.add_dependency    'refinerycms-images',         version

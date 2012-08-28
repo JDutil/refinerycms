@@ -22,14 +22,14 @@ module Refinery
         end
       end
 
-      before_inclusion do
-        [Refinery::AdminController, ::ApplicationController].each do |c|
-          Refinery.include_once(c, Refinery::AuthenticatedSystem)
-        end
-      end
+      # before_inclusion do
+      #   [Refinery::AdminController, ::ApplicationController].each do |c|
+      #     Refinery.include_once(c, Refinery::AuthenticatedSystem)
+      #   end
+      # end
 
       config.before_configuration do
-        require 'refinery/authentication/devise'
+        # require 'refinery/authentication/devise'
       end
 
       config.after_initialize do

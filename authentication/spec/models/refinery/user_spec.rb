@@ -29,15 +29,15 @@ module Refinery
 
       context "has_role" do
         it "raises Exception when Role object is passed" do
-          proc{ user.has_role?(Refinery::Role.new)}.should raise_exception
+          proc{ user.has_refinery_role?(Refinery::Role.new)}.should raise_exception
         end
 
         it "returns the true if user has Role" do
-          refinery_user.has_role?(:refinery).should be_true
+          refinery_user.has_refinery_role?(:refinery).should be_true
         end
 
         it "returns false if user hasn't the Role" do
-          refinery_user.has_role?(:refinery_fail).should be_false
+          refinery_user.has_refinery_role?(:refinery_fail).should be_false
         end
       end
 
@@ -82,7 +82,7 @@ module Refinery
       end
     end
 
-    describe "#can_delete?" do
+    describe "#can_delete_refinery_user?" do
       let(:user_not_persisted) { FactoryGirl.build(:refinery_user) }
       let(:super_user) do
         super_user = FactoryGirl.create(:refinery_user)
@@ -92,31 +92,31 @@ module Refinery
 
       context "won't allow to delete" do
         it "not persisted user record" do
-          refinery_user.can_delete?(user_not_persisted).should be_false
+          refinery_user.can_delete_refinery_user?(user_not_persisted).should be_false
         end
 
         it "user with superuser role" do
-          refinery_user.can_delete?(super_user).should be_false
+          refinery_user.can_delete_refinery_user?(super_user).should be_false
         end
 
         it "if user count with refinery role < 1" do
           ::Refinery::Role[:refinery].users.delete([ refinery_user, super_user ])
-          super_user.can_delete?(refinery_user).should be_false
+          super_user.can_delete_refinery_user?(refinery_user).should be_false
         end
 
         it "user himself" do
-          refinery_user.can_delete?(refinery_user).should be_false
+          refinery_user.can_delete_refinery_user?(refinery_user).should be_false
         end
       end
 
       context "allow to delete" do
         it "if user count with refinery role = 1" do
           ::Refinery::Role[:refinery].users.delete(refinery_user)
-          super_user.can_delete?(refinery_user).should be_true
+          super_user.can_delete_refinery_user?(refinery_user).should be_true
         end
 
         it "if all conditions return true" do
-          super_user.can_delete?(refinery_user).should be_true
+          super_user.can_delete_refinery_user?(refinery_user).should be_true
         end
       end
     end
@@ -159,12 +159,12 @@ module Refinery
       end
     end
 
-    describe "#authorized_plugins" do
+    describe "#authorized_refinery_plugins" do
       it "returns array of user and always allowd plugins" do
         ["refinery_one", "refinery_two", "refinery_three"].each_with_index do |name, index|
           user.plugins.create!(:name => name, :position => index)
         end
-        user.authorized_plugins.should == user.plugins.collect { |p| p.name } | ::Refinery::Plugins.always_allowed.names
+        user.authorized_refinery_plugins.should == user.plugins.collect { |p| p.name } | ::Refinery::Plugins.always_allowed.names
       end
     end
 

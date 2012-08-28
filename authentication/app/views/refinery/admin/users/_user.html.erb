@@ -10,12 +10,14 @@
                 :title => t('.email_user') %>
     <%= link_to refinery_icon_tag('application_edit.png'),
                 refinery.edit_admin_user_path(user),
-                :title => t('edit', :scope => 'refinery.admin.users') if current_refinery_user.can_edit?(user) %>
+                :title => t('edit', :scope => 'refinery.admin.users') if refinery_current_user.can_edit_refinery_user?(user) %>
     <%= link_to refinery_icon_tag('delete.png'),
                 refinery.admin_user_path(user),
                 :class => "cancel confirm-delete",
                 :title => t('delete', :scope => 'refinery.admin.users'),
                 :method => :delete,
-                :confirm => t('message', :scope => 'refinery.admin.delete', :title => user.username) if current_refinery_user.can_delete?(user) %>
+                :data => {
+                  :confirm => t('message', :scope => 'refinery.admin.delete', :title => user.username)
+                } if refinery_current_user.can_delete_refinery_user?(user) %>
   </span>
 </li>

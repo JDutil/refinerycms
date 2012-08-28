@@ -28,10 +28,10 @@ module Refinery
     protected
 
     def redirect?
-      if refinery_user?
+      if refinery_current_user?
         redirect_to refinery.admin_users_path
       elsif refinery_users_exist?
-        redirect_to refinery.new_refinery_user_session_path
+        redirect_to refinery.login_path
       end
     end
 

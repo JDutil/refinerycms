@@ -1,6 +1,7 @@
 module Refinery
   class PagesController < ::ApplicationController
     before_filter :find_page, :set_canonical, :except => [:preview]
+    before_filter :find_page_for_preview, :only => [:preview]
 
     # Save whole Page after delivery
     after_filter { |c| c.write_cache? }
@@ -39,14 +40,6 @@ module Refinery
     end
 
     def preview
-      if page(fallback_to_404 = false)
-        # Preview existing pages
-        @page.attributes = params[:page]
-      elsif params[:page]
-        # Preview a non-persisted page
-        @page = Page.new(params[:page])
-      end
-
       render_with_templates?(:action => :show)
     end
 
@@ -61,15 +54,25 @@ module Refinery
     end
 
     def current_user_can_view_page?
-      page.live? || current_refinery_user_can_access?("refinery_pages")
+      page.live? || refinery_user_can_access?("refinery_pages")
     end
 
-    def current_refinery_user_can_access?(plugin)
-      refinery_user? && current_refinery_user.authorized_plugins.include?(plugin)
+    def refinery_user_can_access?(plugin)
+      refinery_user? && refinery_user.authorized_refinery_plugins.include?(plugin)
     end
 
     def first_live_child
       page.children.order('lft ASC').live.first
+    end
+
+    def find_page_for_preview
+      if page(fallback_to_404 = false)
+        # Preview existing pages
+        @page.attributes = view_context.sanitize_hash params[:page]
+      elsif params[:page]
+        # Preview a non-persisted page
+        @page = Page.new params[:page]
+      end
     end
 
     def find_page(fallback_to_404 = true)
@@ -100,7 +103,7 @@ module Refinery
 
     def write_cache?
       if Refinery::Pages.cache_pages_full && !refinery_user?
-        cache_page(response.body, File.join('', 'refinery', 'cache', 'pages', request.path.sub("//", "/")).to_s)
+        cache_page(response.body, File.join('', 'refinery', 'cache', 'pages', request.path).to_s)
       end
     end
   end

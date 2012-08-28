@@ -1,7 +1,7 @@
 <% content_for :header, t('enter_email_address', :scope => 'refinery.users.forgot') %>
 
 <%= form_for resource, :as => resource_name,
-                       :url => refinery.refinery_user_password_path,
+                       :url => refinery_password_path,
                        :html => { :method => :post } do |f| %>
 
   <div class='field'>
@@ -12,6 +12,6 @@
   <%= render '/refinery/admin/form_actions', :f => f,
              :continue_editing => false,
              :submit_button_text => t('reset_password', :scope => 'refinery.users.forgot'),
-             :cancel_url => refinery.refinery_user_session_path,
+             :cancel_url => refinery_sign_in_path,
              :cancel_title => nil -%>
 <% end -%>

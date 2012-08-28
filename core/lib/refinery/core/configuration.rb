@@ -1,4 +1,8 @@
 module Refinery
+  def self.user_class
+    Core.user_class.to_s.constantize
+  end
+
   module Core
     include ActiveSupport::Configurable
 
@@ -29,7 +33,7 @@ module Refinery
     self.s3_secret_access_key = ENV['S3_SECRET']
     self.force_ssl = false
     self.verbose_rack_cache = false
-    self.user_class = nil
+    self.user_class = 'Refinery::User'
 
     def config.register_javascript(name)
       self.javascripts << name
