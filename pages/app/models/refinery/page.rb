@@ -32,7 +32,7 @@ module Refinery
     attr_accessor :locale # to hold temporarily
     validates :title, :presence => true
 
-    validates :custom_slug, :uniqueness => true, :allow_blank => true
+    # validates :custom_slug, :uniqueness => true, :allow_blank => true
 
     # Docs for acts_as_nested_set https://github.com/collectiveidea/awesome_nested_set
     # rather than :delete_all we want :destroy
