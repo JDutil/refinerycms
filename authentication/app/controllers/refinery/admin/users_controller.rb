@@ -43,6 +43,11 @@ module Refinery
         @selected_plugin_names = find_user.plugins.collect(&:name)
       end
 
+      def index
+        @users = Refinery.user_class.paginate :page => params[:page], :per_page => (params[:per_page] || Refinery.user_class.per_page)
+        render_partial_response?
+      end
+
       def update
         redirect_unless_user_editable!
         @user = find_user
@@ -84,6 +89,11 @@ module Refinery
       end
 
     protected
+
+      # Finds one single result based on the id params.
+      def find_user
+        @user = Refinery.user_class.find params[:id]
+      end
 
       def find_user_with_slug
         @user ||= begin
